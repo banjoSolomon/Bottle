@@ -14,7 +14,7 @@ http_code="${latest_pr_response: -3}"
 latest_pr="${latest_pr_response:0:${#latest_pr_response}-3}"
 
 # Print the latest PR response and HTTP code for debugging
-echo "Raw API Response: $latest_pr_response"
+echo "Latest PR Response: $latest_pr"
 echo "HTTP Status Code: $http_code"
 
 # Check for curl errors
@@ -31,8 +31,8 @@ fi
 
 # Ensure latest_pr is a valid JSON array
 if ! echo "$latest_pr" | jq -e '.[0]' >/dev/null; then
-  echo "No pull requests found."
-  exit 0
+  echo "Failed to parse pull request details. Response was: $latest_pr"
+  exit 1
 fi
 
 # Parse PR details
@@ -44,10 +44,12 @@ pr_body=$(echo "$latest_pr" | jq -r '.[0].body')
 pr_latest_commit_url=$(echo "$latest_pr" | jq -r '.[0].commits_url')
 
 # Fetch the latest commit message for the pull request if commits_url exists
-latest_commit="No commits found"
+latest_commit_message="No commits found"
 if [ "$pr_latest_commit_url" != "null" ]; then
-  latest_commit=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$pr_latest_commit_url" | jq -r '.[-1].commit.message')
-  if [ $? -ne 0 ]; then
+  commit_response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$pr_latest_commit_url")
+  if [ $? -eq 0 ]; then
+    latest_commit_message=$(echo "$commit_response" | jq -r '.[-1].commit.message')
+  else
     echo "Failed to fetch commit messages."
     exit 1
   fi
@@ -66,7 +68,7 @@ if [ ! -f "$CHECK_FILE" ] || [ "$(cat "$CHECK_FILE")" != "$pr_id" ]; then
 
   # Prepare the email content
   subject="New Pull Request: $pr_title by $pr_author"
-  message="Title: $pr_title\nAuthor: $pr_author\nURL: $pr_url\n\nBody:\n$pr_body\n\nLatest Commit Message:\n$latest_commit"
+  message="Title: $pr_title\nAuthor: $pr_author\nURL: $pr_url\n\nBody:\n$pr_body\n\nLatest Commit Message:\n$latest_commit_message"
 
   # Send email to multiple recipients
   echo -e "To: $EMAILS\nSubject: $subject\n\n$message" | sendmail -t
