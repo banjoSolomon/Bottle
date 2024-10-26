@@ -22,4 +22,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Reference the secret here
         run: |
           chmod +x ./sendMail.sh  # Make the script executable
-          ./sendMail.sh $GITHUB_TOKEN  # Call the script with the token as an argument
+          ./sendMail.sh $TOKEN  # Call the script with the token as an argument

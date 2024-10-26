@@ -419,3 +419,67 @@ Error fetching pull requests: HTTP 401
 Raw API Response: 000
 HTTP Status Code: 000
 Error fetching pull requests: HTTP 000
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
+Raw API Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+401
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
