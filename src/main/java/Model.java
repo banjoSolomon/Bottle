@@ -5,6 +5,7 @@ import lombok.Setter;
 @Setter
 public class Model {
     private String name;
+    private String password;
 
 
 }
