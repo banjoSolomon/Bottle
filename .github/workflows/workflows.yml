@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+          distribution: 'temurin'  # Specify the distribution (e.g., temurin, zulu, etc.)
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
