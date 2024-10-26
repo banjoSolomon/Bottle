@@ -6,6 +6,7 @@ import lombok.Setter;
 public class Model {
     private String name;
     private String password;
+    private String email;
 
 
 }
