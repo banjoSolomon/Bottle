@@ -1,6 +1,0 @@
-Latest PR Response: 
-HTTP Status Code: 000
-Error fetching pull requests: HTTP 000
-Latest PR Response: 
-HTTP Status Code: 000
-Error fetching pull requests: HTTP 000

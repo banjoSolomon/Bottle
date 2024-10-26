@@ -10,16 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
       - name: Run email notification script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Reference the secret here
+          GITHUB_TOKEN: ${{ secrets.Token }}  # Reference the secret named 'Token'
         run: |
           chmod +x ./sendMail.sh  # Make the script executable
-          ./sendMail.sh $TOKEN  # Call the script with the token as an argument
+          ./sendMail.sh "$GITHUB_TOKEN"  # Call the script with the token as an argument
