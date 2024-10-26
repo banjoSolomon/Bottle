@@ -1478,3 +1478,17 @@ Latest PR Response: {
 
 HTTP Status Code: 401
 Error fetching pull requests: HTTP 401
+Latest PR Response: 
+HTTP Status Code: 000
+Error fetching pull requests: HTTP 000
+Latest PR Response: 
+HTTP Status Code: 000
+Error fetching pull requests: HTTP 000
+Latest PR Response: {
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
+}
+
+HTTP Status Code: 401
+Error fetching pull requests: HTTP 401
