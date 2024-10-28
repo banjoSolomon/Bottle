@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - test-pr  # Trigger workflow only on push to the test-pr branch
+      - test-pr
 
 jobs:
   build:
@@ -17,14 +17,14 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'  # Specify the distribution (e.g., temurin, zulu, etc.)
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Run email notification script
         env:
-          GITHUB_TOKEN: ${{ secrets.Token }}  # Reference the secret named 'Token'
+          TOKEN: ${{ secrets.Token }}
         run: |
-          chmod +x ./sendMail.sh  # Make the script executable
-          ./sendMail.sh "$GITHUB_TOKEN"  # Call the script with the token as an argument
+          chmod +x ./sendMail.sh  
+          ./sendMail.sh "$TOKEN"  

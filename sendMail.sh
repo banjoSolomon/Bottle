@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Configuration
-GITHUB_TOKEN=$1  # Accept the token as the first argument
+TOKEN=$1  # Accept the token as the first argument
 REPO="banjoSolomon/Bottle"  # Replace with your GitHub repo in format: owner/repo
 EMAILS="ayomidebanjo02@gmail.com,ayomide68@gmail.com"  # Multiple emails separated by commas
 CHECK_FILE="last_pr_check.txt"  # File to store the last seen PR ID
 
 # Fetch the latest open pull request
-latest_pr_response=$(curl -s -w "%{http_code}" -H "Authorization: token $GITHUB_TOKEN" \
+latest_pr_response=$(curl -s -w "%{http_code}" -H "Authorization: token $TOKEN" \
   "https://api.github.com/repos/$REPO/pulls?state=open&sort=created&direction=desc")
 
 http_code="${latest_pr_response: -3}"
