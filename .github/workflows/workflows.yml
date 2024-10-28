@@ -1,6 +1,11 @@
-name: CI
+name: Check for New PRs and Send Notification
 
 on:
+
+  schedule:
+    - cron: '* * * * *'
+
+
   push:
     branches:
       - test-pr

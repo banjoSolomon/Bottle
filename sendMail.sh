@@ -10,26 +10,27 @@ CHECK_FILE="last_pr_check.txt"  # File to store the last seen PR ID
 latest_pr_response=$(curl -s -w "%{http_code}" -H "Authorization: token $TOKEN" \
   "https://api.github.com/repos/$REPO/pulls?state=open&sort=created&direction=desc")
 
+# Split response and HTTP status code
 http_code="${latest_pr_response: -3}"
 latest_pr="${latest_pr_response:0:${#latest_pr_response}-3}"
 
-# Print the latest PR response and HTTP code for debugging
+# Debugging output
 echo "Latest PR Response: $latest_pr"
 echo "HTTP Status Code: $http_code"
 
-# Check for curl errors
+# Check if HTTP request was successful
 if [ "$http_code" -ne 200 ]; then
   echo "Error fetching pull requests: HTTP $http_code"
   exit 1
 fi
 
-# Check if latest_pr is empty
+# Check for an empty PR response
 if [[ "$latest_pr" == "[]" ]]; then
   echo "No open pull requests found in the repository: $REPO."
   exit 0
 fi
 
-# Ensure latest_pr is a valid JSON array
+# Verify JSON structure with jq
 if ! echo "$latest_pr" | jq -e '.[0]' >/dev/null; then
   echo "Failed to parse pull request details. Response was: $latest_pr"
   exit 1
@@ -43,10 +44,10 @@ pr_url=$(echo "$latest_pr" | jq -r '.[0].html_url')
 pr_body=$(echo "$latest_pr" | jq -r '.[0].body')
 pr_latest_commit_url=$(echo "$latest_pr" | jq -r '.[0].commits_url')
 
-# Fetch the latest commit message for the pull request if commits_url exists
+# Fetch latest commit message
 latest_commit_message="No commits found"
 if [ "$pr_latest_commit_url" != "null" ]; then
-  commit_response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$pr_latest_commit_url")
+  commit_response=$(curl -s -H "Authorization: token $TOKEN" "$pr_latest_commit_url")
   if [ $? -eq 0 ]; then
     latest_commit_message=$(echo "$commit_response" | jq -r '.[-1].commit.message')
   else
@@ -55,7 +56,7 @@ if [ "$pr_latest_commit_url" != "null" ]; then
   fi
 fi
 
-# Ensure all required details are available
+# Ensure PR details are complete
 if [ -z "$pr_id" ] || [ -z "$pr_title" ] || [ -z "$pr_author" ]; then
   echo "Incomplete pull request details, skipping email."
   exit 1
