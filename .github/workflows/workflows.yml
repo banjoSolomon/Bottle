@@ -21,9 +21,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
+      - name: Debugging Information
+        run: |
+          echo "Running email notification script"
+          echo "GITHUB_TOKEN: $TOKEN"
+          echo "SMTP_USER: $SMTP_USER"
+          echo "SMTP_PASS: $SMTP_PASS"
 
       - name: Run email notification script
         env:
