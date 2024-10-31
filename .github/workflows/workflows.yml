@@ -1,8 +1,9 @@
 name: Check for New PRs and Send Notification
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  push:
+    branches:
+      - test-pr
   pull_request:
     branches:
       - test-pr
@@ -24,18 +25,9 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Debugging Information
-        run: |
-          echo "Running email notification script"
-          echo "GITHUB_TOKEN: $TOKEN"
-          echo "SMTP_USER: $SMTP_USER"
-          echo "SMTP_PASS: $SMTP_PASS"
-
       - name: Run email notification script
         env:
-          TOKEN: ${{ secrets.TOKEN }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TOKEN: ${{ secrets.Token }}
         run: |
-          chmod +x ./sendMail.sh
-          ./sendMail.sh "$TOKEN" "$SMTP_USER" "$SMTP_PASS"
+          chmod +x ./sendMail.sh  
+          ./sendMail.sh "$TOKEN"
