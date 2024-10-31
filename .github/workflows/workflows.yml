@@ -1,12 +1,9 @@
 name: Check for New PRs and Send Notification
 
 on:
-
   schedule:
-    - cron: '* * * * *'
-
-
-  push:
+    - cron: '*/15 * * * *'
+  pull_request:
     branches:
       - test-pr
 
@@ -29,7 +26,9 @@ jobs:
 
       - name: Run email notification script
         env:
-          TOKEN: ${{ secrets.Token }}
+          TOKEN: ${{ secrets.TOKEN }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: |
-          chmod +x ./sendMail.sh  
-          ./sendMail.sh "$TOKEN"  
+          chmod +x ./sendMail.sh
+          ./sendMail.sh "$TOKEN" "$SMTP_USER" "$SMTP_PASS"
